@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href="../../favicon.ico">-->
+
+    <title>英语学习</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="__STATIC__/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/index/english.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="__STATIC__/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="main">
+        <div class="top">
+            <img src="__STATIC__/img/english_top.jpg" alt="">
+        </div>
+
+        <div class="middle text_EN_word">
+
+            <label for="" class="CN_word">中文释义:<span id="CN_explain" word_id="{$data['id']}" >{$data['word_cn']} </span> </label>
+            <br/>
+            <label for=""><input type="text" class="name" placeholder="输入英文" id='enterEN' ></label>
+            <br/>
+            <label for="">英文单词：<span style="display: none;color:red" id="word_en">{$data['word_en']}</span></label>
+            <br/>
+            <label for="">剩余数量：<span style="color:red" >{$remainingNumber}</span></label>
+            <input type="hidden" class="name" placeholder="输入章节" id='EN_charter' value="{$data['unit']}"></label>
+            <br/>
+            <label for=""><button  class="blue" onclick="show_EN()">显示英文</button></label>
+            <label for=""><button  class="blue" onclick="next_word('1')">正确</button></label>
+            <label for=""><button  class="blue" onclick="next_word('0')">错误</button></label>
+            <a href="{:\\think\\Url::build('english/index')}" class="back_button">返回</a>
+            <span></span>
+
+        </div>
+
+
+    </div>
+
+    <!--底部js-->
+    <script type="text/javascript" src="__STATIC__/h-ui.admin/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+    <script>
+
+        function show_EN(){
+
+            $('#word_en').toggle();
+        }
+
+
+    function next_word(a){
+       var correct=a;
+       var word_id=$('#CN_explain').attr('word_id');
+       var select_charter=$('#EN_charter').val();
+        $.ajax({
+            type:"post",
+            url:"{:\\think\\Url::build('english/next_word')}",
+
+            data:{
+                word_id:word_id,
+                correct:correct,
+                select_charter:select_charter,
+            },
+            dataType:'json',
+            success:function(data){
+
+                if(data=='success'){
+                    layer.alert('下一个',function(){
+                        window.location.reload();
+                    });
+
+                }
+
+            },
+            error:function(){
+                     alert('提交失败');
+                  }
+        })
+    }
+</script>
+</body>
+</html>

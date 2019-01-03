@@ -1,0 +1,20 @@
+<html>
+<form action="/admin/test/upload" enctype="multipart/form-data" method="post">
+    <input type="file" name="image" /> <br>
+    <input type="submit" value="上传" />
+</form>
+
+
+
+
+<form action="/admin/test/upload" enctype="multipart/form-data" method="post">
+    <input type="file" name="image[]" /> <br>
+     <input type="file" name="image[]" /> <br>
+      <input type="file" name="image[]" /> <br>
+    <input type="submit" value="上传" />
+</form>
+
+{volist name="images" id="vo"}
+<img src="http://{$_SERVER['HTTP_HOST']}/upload/{$vo.path}" alt="">
+{/volist}
+</html>

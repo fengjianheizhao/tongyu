@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="1eb9d871-469c-4f20-9258-f47f7d7330ee" name="english" url="http://47.75.103.19">
+        <fileTransfer host="47.75.103.19" port="22" rootFolder="/www/wwwroot/www.tongyu.com" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" keepAliveCommand="PWD" passiveMode="true" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

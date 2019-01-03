@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!--<link rel="icon" href="../../favicon.ico">-->
+
+    <title>英语学习</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="__STATIC__/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__STATIC__/css/index/english.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="__STATIC__/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
+
+</head>
+
+<body>
+    <div class="main">
+        <div class="top">
+            <img src="__STATIC__/img/english_top.jpg" alt="">
+        </div>
+
+        <div class="middle">
+            <label for=""><input type="text" class="wordinput" placeholder="输入中文" id='enterCN' ></label>
+            <label for=""><input type="text" class="wordinput" placeholder="输入英文" id='enterEN' ></label>
+            <label for=""><input type="text" class="wordinput" placeholder="输入章节" id='EN_charter' ></label>
+            <label for=""><button  class="blue" onclick="enter_word()">提交</button></label>
+
+        </div>
+
+        <div class="foot">
+            <form action="{:\\think\\Url::build('english/practice')}" method="post">
+             <label for=""><span>章节数</span>
+             <input type="number" name="charter" placeholder="选择章节数" id='select_charter' >
+             </label>
+             <label for=""><button  type='submit'  >提交</button></label>
+            </form>
+        </div>
+    </div>
+
+    <!--底部js-->
+    <script type="text/javascript" src="__STATIC__/h-ui.admin/lib/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="__STATIC__/layer/layer.js"></script>
+    <script>
+    function enter_word(){
+       
+
+        var EN_word=$('#enterEN').val();
+        var CN_word=$('#enterCN').val();
+        var EN_charter=$('#EN_charter').val();
+
+        $.ajax({
+            type:"post",
+            url:"{:\\think\\Url::build('english/enter_word')}",
+
+            data:{
+                EN_word:EN_word,
+                CN_word:CN_word,
+                EN_charter:EN_charter,
+
+            },
+            dataType:'json',
+            success:function(data){
+                     layer.msg('提交成功');
+                  },
+            error:function(){
+                layer.msg('提交失败');
+                  }
+        })
+    }
+
+    function select_charter(){
+       var select_charter=$('#select_charter').val(); 
+        $.ajax({
+            type:"post",
+            url:"{:\\think\\Url::build('english/select_charter')}",
+
+            data:{
+                select_charter:select_charter,
+                
+
+            },
+            dataType:'json',
+            success:function(data){
+                     alert('提交成功');
+                  },
+            error:function(){
+                     alert('提交失败');
+                  }
+        })
+    }
+</script>
+</body>
+</html>

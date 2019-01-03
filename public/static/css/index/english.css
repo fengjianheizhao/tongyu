@@ -1,0 +1,33 @@
+/*
+english page css
+date:2018-05-25
+ */
+
+
+/*
+top css
+ */
+.main{color: #b6b6b6;  }
+.top{height: 200px;background: #fff1e5;width: 100%;margin: auto}
+.top img{height: 200px;width: 100%}
+.middle{height: 400px;background: #f8ecea;width:100%;margin-top: 0px;text-align: center}
+.foot{height: 200px;background: #f8ecea;width:100%;margin-top: 0px;text-align: center}
+.wordinput{width:300px;margin:20px}
+
+.CN_word{font-size: 24px;color: #ffaf1b;
+}
+.text_EN_word {
+    margin-top: 20px;
+}
+.back_button{
+    display: block;
+    margin-top:200px;
+    width: 60px;
+    height: 30px;
+    border: 1px solid #fb7299;
+    border-radius: 2px;
+    background-color: #fb7299;
+    text-align: center;
+}
+
+.blue{margin-right: 30px}
