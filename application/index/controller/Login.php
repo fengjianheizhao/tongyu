@@ -6,7 +6,7 @@
  * @version $Id$
  */
 
-namespace app\admin\controller;
+namespace app\index\controller;
 
 
 use think\View;
@@ -18,9 +18,7 @@ use think\Session;
 
 class Login extends Controller {
     
-    // function __construct(){
-        
-    // }
+
 
    public function index() {
 
