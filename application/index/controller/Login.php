@@ -26,14 +26,13 @@ class Login extends Controller {
     }
 
 
-     public function test() {
+     public function login() {
 
      	//获取登录ajax传过来的值
      
-     	$username=json_decode($_POST['name']);
+     	$username=json_decode($_POST['username']);
      	$pwd=json_decode($_POST['pwd']);
-     	$data=$_POST['captcha'];
-     	$online=$_POST['online'];
+
 
 
 
@@ -41,28 +40,34 @@ class Login extends Controller {
      	$mpwd=md5($pwd);
      	$time=time();
         //输入存入cookie
-         if($online==1){
-             setcookie('username',$username,time()+3600,'/','tp5.com');
-             setcookie('password',$mpwd,time()+3600,'/','tp5.com');
-         }
+//         if($online==1){
+//             setcookie('username',$username,time()+3600,'/','tp5.com');
+//             setcookie('password',$mpwd,time()+3600,'/','tp5.com');
+//         }
      	// 从数据库中获取密码
-     	$tpwd=Db::name('user')->where('username',"$username")->find();
+     	$tpwd=Db::name('indexuser')->where('username',"$username")->find();
 
-     	
-     	if(!captcha_check($data)){
-     		echo '2';
-     	}
-     	elseif(empty($tpwd['password']))
+     	if($tpwd['password']==$mpwd){
+     	    echo'666';
+        }else{
+            echo $tpwd['password'];
+            echo'<br>';
+            echo $mpwd;
+        }
+
+
+
+     	if(empty($tpwd['password']))
      	{
      		echo'3';
      	}else if($tpwd['password']==$mpwd){
      		//将登陆时间存入数据库
-     		$data1=['logtime'=>"$time"];
-     		db('user')->where('username',"$username")->setField('logtime',"$time");
+
+     		db('indexuser')->where('username',"$username")->setField('logintime',"$time");
      		//把用户名存入session
      		$uid=$tpwd['id'];
-     		 Session::set('user.name',"$username");
-     		 Session::set('user.id',"$uid");
+     		 Session::set('index_user.name',"$username");
+     		 Session::set('index_user.id',"$uid");
 
      		echo'1';
      	}else{
@@ -70,18 +75,36 @@ class Login extends Controller {
      	}
      	
 
-//     if(!captcha_check($data)){
-//      echo'<script type="text/javascript">
-//   alert("888888");
-// </script>';
-// }else{
-// 	echo'77777';  	
-//     }
+
 	}
+
+	public function create_table(){
+
+
+
+       if(Db::query("SHOW TABLES LIKE 'lcz_indexuser'")){
+           echo'table already exist';
+       }else{
+           $sql="CREATE TABLE lcz_indexuser (
+       id INT(10) UNSIGNED AUTO_INCREMENT PRIMARY KEY ,
+       username VARCHAR(30) NOT NULL,
+       password VARCHAR (255) NOT NULL,
+       logintime INT(20) ,
+       regtime INT(20) ,
+       email VARCHAR (50)
+      )";
+           if(Db::query($sql)){
+               echo"table created successful";
+           }else{
+               echo"创建错误";
+           }
+       }
+
+    }
 
 	public function out() {
 
-    	session('user',null);
+    	session('index_user',null);
     	$this->redirect(__URL__.'/'.ADMIN_MODULE . "/login");
     	
     }
