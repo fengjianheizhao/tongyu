@@ -22,6 +22,11 @@ class Login extends Controller {
 
    public function index() {
 
+       if(Session::has('index_user'))
+       {
+           $this->redirect('index/index');
+       }
+
     	return $this->view->fetch('login');
     }
 
@@ -31,13 +36,14 @@ class Login extends Controller {
      	//获取登录ajax传过来的值
      
      	$username=json_decode($_POST['username']);
-     	$pwd=json_decode($_POST['pwd']);
+     	$pwd=$_POST['pwd'];
 
 
 
 
      	//密码加密
-     	$mpwd=md5($pwd);
+//     	$mpwd=sha1($pwd);
+
      	$time=time();
         //输入存入cookie
 //         if($online==1){
@@ -47,20 +53,14 @@ class Login extends Controller {
      	// 从数据库中获取密码
      	$tpwd=Db::name('indexuser')->where('username',"$username")->find();
 
-     	if($tpwd['password']==$mpwd){
-     	    echo'666';
-        }else{
-            echo $tpwd['password'];
-            echo'<br>';
-            echo $mpwd;
-        }
+
 
 
 
      	if(empty($tpwd['password']))
      	{
      		echo'3';
-     	}else if($tpwd['password']==$mpwd){
+     	}else if($tpwd['password']==$pwd){
      		//将登陆时间存入数据库
 
      		db('indexuser')->where('username',"$username")->setField('logintime',"$time");
@@ -68,6 +68,8 @@ class Login extends Controller {
      		$uid=$tpwd['id'];
      		 Session::set('index_user.name',"$username");
      		 Session::set('index_user.id',"$uid");
+
+
 
      		echo'1';
      	}else{
@@ -102,10 +104,10 @@ class Login extends Controller {
 
     }
 
-	public function out() {
+	public function loginout() {
 
     	session('index_user',null);
-    	$this->redirect(__URL__.'/'.ADMIN_MODULE . "/login");
+    	$this->redirect("login/index");
     	
     }
 }

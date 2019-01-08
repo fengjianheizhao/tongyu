@@ -14,6 +14,15 @@ class Index  extends controller
     {
         $allimage=Db::name('image')->select();
 
+        $uid=Session::get('index_user.id');
+        $username=Session::get('index_user.name');
+
+        if($uid)
+        {
+            $this->view->assign('username',$username);
+            $this->view->assign('uid',$uid);
+        }
+
         for ($i=0; $i <count($allimage) ; $i++) {
             $allimage[$i]['path']=str_replace('\\','/', $allimage[$i]['path']) ;
         }
