@@ -31,7 +31,18 @@ class Login extends Controller {
     }
 
 
-     public function login() {
+    public function register() {
+
+        if(Session::has('index_user'))
+        {
+            $this->redirect('index/index');
+        }
+
+        return $this->view->fetch('register');
+    }
+
+
+     public function do_login() {
 
      	//获取登录ajax传过来的值
      
@@ -79,6 +90,66 @@ class Login extends Controller {
 
 
 	}
+
+
+
+    public function do_register() {
+
+        //获取登录ajax传过来的值
+
+        $username=json_decode($_POST['username']);
+        $pwd=$_POST['pwd'];
+
+
+
+
+        //密码加密
+//     	$mpwd=sha1($pwd);
+
+        $time=time();
+        //输入存入cookie
+//         if($online==1){
+//             setcookie('username',$username,time()+3600,'/','tp5.com');
+//             setcookie('password',$mpwd,time()+3600,'/','tp5.com');
+//         }
+        // 从数据库中获取密码
+        $tpwd=Db::name('indexuser')->where('username',"$username")->find();
+
+
+
+
+
+        if($tpwd['password'])
+        {
+            echo'2';
+        }else {
+
+
+            //将注册信息存入数据库
+
+            $data=[
+                'username'=>$username,
+                'password'=>$pwd,
+                'regtime'=>$time
+            ];
+
+            db('indexuser')->insert($data);
+
+            $user=Db::name('indexuser')->where('username',"$username")->find();
+
+            //把用户名存入session
+            $uid=$user['id'];
+            Session::set('index_user.name',"$username");
+            Session::set('index_user.id',"$uid");
+
+
+
+            echo'1';
+        }
+
+
+
+    }
 
 	public function create_table(){
 
