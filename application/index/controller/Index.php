@@ -21,6 +21,8 @@ class Index  extends controller
         {
             $this->view->assign('username',$username);
             $this->view->assign('uid',$uid);
+        }else{
+            $this->view->assign('uid','');
         }
 
         for ($i=0; $i <count($allimage) ; $i++) {
